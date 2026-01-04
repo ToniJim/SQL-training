@@ -1,5 +1,15 @@
 -- =====================================================
 -- International Debt Analysis
+-- Exploratory queries on international debt indicators
+--
+-- SQL techniques used:
+-- - COUNT(DISTINCT)
+-- - Aggregations (SUM, MIN)
+-- - GROUP BY
+-- - ORDER BY
+-- - WHERE filtering
+-- - Aliases
+--
 -- Source: DataCamp SQL exercises
 -- =====================================================
 
