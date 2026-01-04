@@ -1,5 +1,15 @@
 -- =====================================================
 -- Golden Era of Video Games
+-- Top 10 games by units sold worldwide
+--
+-- Concepts & techniques:
+-- - JOIN
+-- - GROUP BY
+-- - ORDER BY
+-- - HAVING
+-- - Aggregations (SUM, AVG)
+-- - Table & column aliases
+--
 -- Source: DataCamp SQL exercises
 -- =====================================================
 
