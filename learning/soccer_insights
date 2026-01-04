@@ -1,25 +1,19 @@
 -- =====================================================
--- Soccer Analysis
--- Analysis of home team performance, possession dominance,
--- and duels won vs game outcomes
+-- UEFA Soccer Analysis
 --
--- Objectives:
--- 1. Identify the top 3 home teams with the most goals scored.
--- 2. Find the team with the majority possession in most games.
--- 3. Determine teams that won more duels but lost the game, stage-wise.
+-- Objective:
+--   1. Top 3 home teams by goals
+--   2. Team with majority possession in most games
+--   3. Teams that won more duels but lost the match, by stage
 --
 -- SQL techniques used:
--- - SELECT
 -- - WHERE filtering
 -- - CASE statements
 -- - GROUP BY
 -- - Aggregations (COUNT)
 -- - ORDER BY
 -- - LIMIT
---
--- Notes:
--- - Dataset: SOCCER.TBL_UEFA_2020, 2021, 2022
--- - Some queries required referencing solutions from earlier exercises
+-- - CTEs
 --
 -- Source: DataCamp SQL exercises / UEFA datasets
 -- =====================================================
