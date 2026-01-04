@@ -14,7 +14,7 @@
 -- - Aliases
 -- - ORDER BY
 --
--- Source: DataCamp exercises
+-- Source: DataCamp SQL exercises
 -- =====================================================SELECT industry_group,
 	COUNT(DISTINCT company) AS num_companies,
 	ROUND(SUM(carbon_footprint_pcf), 1) AS total_industry_footprint
