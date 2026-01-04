@@ -1,0 +1,59 @@
+-- =====================================================
+-- Soccer Analysis
+-- Analysis of home team performance, possession dominance,
+-- and duels won vs game outcomes
+--
+-- Objectives:
+-- 1. Identify the top 3 home teams with the most goals scored.
+-- 2. Find the team with the majority possession in most games.
+-- 3. Determine teams that won more duels but lost the game, stage-wise.
+--
+-- SQL techniques used:
+-- - SELECT
+-- - WHERE filtering
+-- - CASE statements
+-- - GROUP BY
+-- - Aggregations (COUNT)
+-- - ORDER BY
+-- - LIMIT
+--
+-- Notes:
+-- - Dataset: SOCCER.TBL_UEFA_2020, 2021, 2022
+-- - Some queries required referencing solutions from earlier exercises
+--
+-- Source: DataCamp SQL exercises / UEFA datasets
+-- =====================================================
+
+-- TEAM_HOME_WITH_MOST_GOALS
+SELECT team_name_home, team_home_score
+FROM SOCCER.TBL_UEFA_2020
+ORDER BY team_home_score DESC
+LIMIT 3;
+
+-- TEAM_WITH_MAJORITY_POSSESSION
+SELECT
+    CASE 
+        WHEN POSSESSION_HOME > POSSESSION_AWAY THEN TEAM_NAME_HOME
+        WHEN POSSESSION_AWAY > POSSESSION_HOME THEN TEAM_NAME_AWAY
+        ELSE NULL 
+    END AS TEAM_NAME,
+    COUNT(*) AS GAME_COUNT
+FROM SOCCER.TBL_UEFA_2021
+GROUP BY TEAM_NAME
+ORDER BY GAME_COUNT DESC
+LIMIT 1;
+
+-- TEAM_WON_DUEL_LOST_GAME_STAGE_WISE
+WITH duel_results AS (
+    SELECT 
+        STAGE,
+        CASE
+            WHEN DUELS_WON_HOME > DUELS_WON_AWAY AND TEAM_HOME_SCORE < TEAM_AWAY_SCORE THEN TEAM_NAME_HOME
+            WHEN DUELS_WON_AWAY > DUELS_WON_HOME AND TEAM_AWAY_SCORE < TEAM_HOME_SCORE THEN TEAM_NAME_AWAY
+            ELSE NULL
+        END AS TEAM_LOST
+    FROM SOCCER.TBL_UEFA_2022
+)
+SELECT STAGE, TEAM_LOST
+FROM duel_results
+WHERE TEAM_LOST IS NOT NULL;
