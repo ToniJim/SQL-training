@@ -1,12 +1,33 @@
+-- =====================================================
+-- Wholesale Sales Analysis
+-- Net revenue by product line and warehouse
+--
+-- Objective:
+--   Calculate net revenue (total minus payment fees) 
+--   for wholesale clients during June, July, and August
+--
+-- SQL techniques used:
+-- - WHERE filtering
+-- - CASE statements
+-- - EXTRACT date function
+-- - GROUP BY
+-- - Aggregations (SUM)
+-- - Aliases
+-- - ORDER BY
+--
+-- Source: DataCamp SQL exercises
+-- =====================================================
+
 SELECT product_line,
-    CASE WHEN EXTRACT('month' from date) = 6 THEN 'June'
-        WHEN EXTRACT('month' from date) = 7 THEN 'July'
-        WHEN EXTRACT('month' from date) = 8 THEN 'August'
-    END as month,
-    warehouse,
-	SUM(total) - SUM(payment_fee) AS net_revenue
+       CASE 
+           WHEN EXTRACT('month' FROM date) = 6 THEN 'June'
+           WHEN EXTRACT('month' FROM date) = 7 THEN 'July'
+           WHEN EXTRACT('month' FROM date) = 8 THEN 'August'
+       END AS month,
+       warehouse,
+       SUM(total) - SUM(payment_fee) AS net_revenue
 FROM sales
 WHERE client_type = 'Wholesale'
-	AND EXTRACT('month' FROM date) IN (6, 7, 8)
+  AND EXTRACT('month' FROM date) IN (6, 7, 8)
 GROUP BY product_line, warehouse, month
-ORDER BY product_line, month, net_revenue DESC
+ORDER BY product_line, month, net_revenue DESC;
