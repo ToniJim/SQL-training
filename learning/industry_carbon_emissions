@@ -1,0 +1,24 @@
+-- =====================================================
+-- Industry Carbon Footprint Analysis
+--
+-- Objective:
+--   Analyze the number of companies and their total carbon footprint 
+--   per industry group for the most recent year
+--
+-- SQL techniques used:
+-- - WHERE filtering
+-- - Subquery for latest year
+-- - GROUP BY
+-- - Aggregations (COUNT DISTINCT, SUM)
+-- - ROUND
+-- - Aliases
+-- - ORDER BY
+--
+-- Source: DataCamp exercises
+-- =====================================================SELECT industry_group,
+	COUNT(DISTINCT company) AS num_companies,
+	ROUND(SUM(carbon_footprint_pcf), 1) AS total_industry_footprint
+FROM product_emissions
+WHERE year IN (SELECT MAX(year) FROM product_emissions)
+GROUP BY industry_group
+ORDER BY total_industry_footprint DESC;
