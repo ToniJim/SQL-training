@@ -1,0 +1,63 @@
+-- =====================================================
+-- Trends in American Baby Names
+--
+-- Concepts & techniques:
+-- - GROUP BY
+-- - ORDER BY
+-- - CASE Statement
+-- - Aggregations (SUM)
+--
+-- Source: DataCamp SQL exercises
+-- =====================================================
+-- =====================================================
+-- first five names in alphabetical order in "Classic" or "Trendy
+-- =====================================================
+SELECT
+  first_name,
+  SUM(num) AS sum,
+  CASE
+    WHEN COUNT(DISTINCT year) > 50 THEN 'Classic'
+    ELSE 'Trendy'
+  END AS popularity_type
+FROM baby_names
+GROUP BY first_name
+ORDER BY first_name ASC
+LIMIT 5;
+-- =====================================================
+-- =====================================================
+-- top 20 male names
+--
+-- Concepts & techniques:
+-- - GROUP BY
+-- - ORDER BY
+-- - RANK ()
+-- - Aggregations (SUM)
+--
+-- Source: DataCamp SQL exercises
+-- =====================================================
+SELECT 
+	RANK () OVER (ORDER BY SUM(num) DESC)AS name_rank, 
+	first_name, 
+	SUM (num) AS sum
+FROM baby_names
+	WHERE sex = 'M'
+GROUP BY first_name
+	ORDER BY name_rank
+LIMIT 20;
+-- =====================================================
+-- =====================================================
+-- famele name in 1920 and 2020
+--
+-- Concepts & techniques:
+-- - Self JOIN
+--
+-- Source: DataCamp SQL exercises
+-- =====================================================
+SELECT a.first_name, (a.num + b.num) AS total_occurrences
+FROM baby_names a
+JOIN baby_names b
+-- Join on first name
+ON a.first_name = b.first_name
+-- Filter for the years 1920 and 2020 and sex equals 'F'
+WHERE a.year = 1920 AND a.sex = 'F'
+AND b.year = 2020 AND b.sex = 'F';
