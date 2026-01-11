@@ -1,6 +1,5 @@
 -- =====================================================
 -- Analysis NGO
--- Top 10 games by units sold worldwide
 --
 -- Concepts & techniques:
 -- - JOIN
@@ -40,9 +39,9 @@ ORDER BY
     dd.rounded_total_donation_amount DESC
 LIMIT 5;
 -- =====================================================
+-- =====================================================
 -- highest_donation_assignments
 -- Toni's answer
--- =====================================================
 -- =====================================================
 SELECT
     a.assignment_name,
