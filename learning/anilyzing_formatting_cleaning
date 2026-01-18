@@ -1,17 +1,28 @@
 -- =====================================================
--- Anilyzing, formatting and cleaning a PostgreSQL Database
+-- Super Store Data Cleaning & Analysis
+-- Identifying Top Products and Imputing Missing Values
 --
 -- Concepts & techniques:
--- - Subquery
--- - RANK
--- - CTE's
--- - GROUP BY
--- - Aggregations (SUM, AVG)
--- - CAST
--- - PARTITION BY
+-- - Data cleaning & data quality checks
+-- - Type casting (TEXT → DATE, DOUBLE PRECISION → NUMERIC)
+-- - JOINs (INNER, LEFT)
+-- - GROUP BY & aggregations (SUM, AVG)
+-- - Window functions (RANK)
+-- - Handling missing values (imputation logic)
+-- - Common Table Expressions (CTEs)
 --
--- Source: DataCamp SQL exercises
+-- Business goals:
+-- - Identify top 5 products per category by total sales
+-- - Estimate missing quantity values using inferred unit prices
+--
+-- Source: Super Store SQL Project (educational dataset)
 -- =====================================================
+
+-- -----------------------------------------------------
+-- top_five_products_each_category
+-- Top 5 products per category by total sales
+-- -----------------------------------------------------
+
 SELECT *
 FROM ( 
 	SELECT 
@@ -26,7 +37,12 @@ FROM (
 	GROUP BY p.category, p.product_name
 	) AS tmp
 WHERE product_rank < 6;
--- =====================================================
+
+-- -----------------------------------------------------
+-- impute_missing_values
+-- Estimate missing quantity values using unit price logic
+-- -----------------------------------------------------
+
 WITH missing AS (
 	SELECT product_id,
 		discount, 
