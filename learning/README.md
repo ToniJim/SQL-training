@@ -16,6 +16,12 @@ datasets, with an emphasis on clarity, readability, and proper SQL structure.
 - Subqueries
 - Window functions
 - CASE statements
+- CAST
+- RANK
+- WINDOW functions
+- PARTITION
+- CTE's
+- ...
 
 ## Datasets
 The datasets used in this folder vary by exercise and are provided
