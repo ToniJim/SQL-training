@@ -1,0 +1,54 @@
+-- =====================================================
+-- Anilyzing, formatting and cleaning a PostgreSQL Database
+--
+-- Concepts & techniques:
+-- - Subquery
+-- - RANK
+-- - CTE's
+-- - GROUP BY
+-- - Aggregations (SUM, AVG)
+-- - CAST
+-- - PARTITION BY
+--
+-- Source: DataCamp SQL exercises
+-- =====================================================
+SELECT *
+FROM ( 
+	SELECT 
+		p.category, 
+		p.product_name, 
+		ROUND (SUM(o.sales::NUMERIC), 2) AS product_total_sales, 
+		ROUND (SUM(o.profit::NUMERIC), 2) AS product_total_profit,
+	RANK () OVER (PARTITION BY p.category ORDER BY SUM (o.sales) DESC) AS product_rank
+	FROM orders AS o
+	JOIN products AS p
+	ON o.product_id = p.product_id
+	GROUP BY p.category, p.product_name
+	) AS tmp
+WHERE product_rank < 6;
+-- =====================================================
+WITH missing AS (
+	SELECT product_id,
+		discount, 
+		market,
+		region,
+		sales,
+		quantity
+	FROM orders 
+	WHERE quantity IS NULL
+), 
+
+unit_prices AS (SELECT o.product_id,
+	CAST(o.sales / o.quantity AS NUMERIC) AS unit_price
+FROM orders o
+RIGHT JOIN missing AS m 
+	ON o.product_id = m.product_id
+	AND o.discount = m.discount
+WHERE o.quantity IS NOT NULL
+)
+
+SELECT DISTINCT m.*,
+	ROUND(CAST(m.sales AS NUMERIC) / up.unit_price,0) AS calculated_quantity
+FROM missing AS m
+INNER JOIN unit_prices AS up
+	ON m.product_id = up.product_id;
