@@ -1,0 +1,55 @@
+-- =====================================================
+-- Student Performance Analysis
+--
+-- Concepts & techniques:
+-- - GROUP BY
+-- - ORDER BY
+-- - AVG (aggregations)
+-- - CASE statement for ranges
+-- - Window functions (DENSE_RANK)
+--
+-- Source: DataCamp Educational SQL exercises dataset
+-- =====================================================
+
+-- =====================================================
+-- 1. Average exam score for students studying >10 hours 
+--    and participating in extracurricular activities
+-- =====================================================
+SELECT
+    hours_studied, 
+    AVG(exam_score) AS avg_exam_score
+FROM student_performance
+WHERE hours_studied > 10 
+  AND extracurricular_activities = 'Yes'
+GROUP BY hours_studied
+ORDER BY hours_studied DESC;
+
+
+-- =====================================================
+-- 2. Average exam score by ranges of hours studied
+-- =====================================================
+SELECT
+    CASE 
+        WHEN hours_studied BETWEEN 1 AND 5 THEN '1-5 hours'
+        WHEN hours_studied BETWEEN 6 AND 10 THEN '6-10 hours'
+        WHEN hours_studied BETWEEN 11 AND 15 THEN '11-15 hours'
+        WHEN hours_studied >= 16 THEN '16+ hours'
+    END AS hours_studied_range,
+    AVG(exam_score) AS avg_exam_score
+FROM student_performance
+GROUP BY hours_studied_range
+ORDER BY avg_exam_score DESC;
+
+
+-- =====================================================
+-- 3. Top 30 students by exam score with relative rank
+-- =====================================================
+SELECT
+    attendance, 
+    hours_studied,
+    sleep_hours, 
+    tutoring_sessions,
+    DENSE_RANK() OVER (ORDER BY exam_score DESC) AS exam_rank
+FROM student_performance
+ORDER BY exam_rank ASC
+LIMIT 30;
